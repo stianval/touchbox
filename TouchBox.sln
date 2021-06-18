@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1267
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TouchBox", "TouchBox\TouchBox.vcxproj", "{0CBE7FB7-B2C9-45F4-BC4A-B87E57D85590}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F0814A5D-D7BD-49E5-A0D1-4B3E00BAF377} = {F0814A5D-D7BD-49E5-A0D1-4B3E00BAF377}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XInputReader", "XInputReader\XInputReader.vcxproj", "{F0814A5D-D7BD-49E5-A0D1-4B3E00BAF377}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CBE7FB7-B2C9-45F4-BC4A-B87E57D85590}.Debug|x64.ActiveCfg = Debug|x64
+		{0CBE7FB7-B2C9-45F4-BC4A-B87E57D85590}.Debug|x64.Build.0 = Debug|x64
+		{0CBE7FB7-B2C9-45F4-BC4A-B87E57D85590}.Debug|x86.ActiveCfg = Debug|Win32
+		{0CBE7FB7-B2C9-45F4-BC4A-B87E57D85590}.Debug|x86.Build.0 = Debug|Win32
+		{0CBE7FB7-B2C9-45F4-BC4A-B87E57D85590}.Release|x64.ActiveCfg = Release|x64
+		{0CBE7FB7-B2C9-45F4-BC4A-B87E57D85590}.Release|x64.Build.0 = Release|x64
+		{0CBE7FB7-B2C9-45F4-BC4A-B87E57D85590}.Release|x86.ActiveCfg = Release|Win32
+		{0CBE7FB7-B2C9-45F4-BC4A-B87E57D85590}.Release|x86.Build.0 = Release|Win32
+		{F0814A5D-D7BD-49E5-A0D1-4B3E00BAF377}.Debug|x64.ActiveCfg = Debug|x64
+		{F0814A5D-D7BD-49E5-A0D1-4B3E00BAF377}.Debug|x64.Build.0 = Debug|x64
+		{F0814A5D-D7BD-49E5-A0D1-4B3E00BAF377}.Debug|x86.ActiveCfg = Debug|Win32
+		{F0814A5D-D7BD-49E5-A0D1-4B3E00BAF377}.Debug|x86.Build.0 = Debug|Win32
+		{F0814A5D-D7BD-49E5-A0D1-4B3E00BAF377}.Release|x64.ActiveCfg = Release|x64
+		{F0814A5D-D7BD-49E5-A0D1-4B3E00BAF377}.Release|x64.Build.0 = Release|x64
+		{F0814A5D-D7BD-49E5-A0D1-4B3E00BAF377}.Release|x86.ActiveCfg = Release|Win32
+		{F0814A5D-D7BD-49E5-A0D1-4B3E00BAF377}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {95D74BAC-9558-4E67-8F5C-58C6E9D57D09}
+	EndGlobalSection
+EndGlobal
