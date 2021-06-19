@@ -40,19 +40,19 @@ private:
         HandlerImpl(T & handler)
             : handler(handler)
         {}
-        void onButtonsStateChanged(int user, const GamePadState & oldState, const GamePadState & state) {
+        void onButtonsStateChanged(int user, const GamePadState & oldState, const GamePadState & state) override {
             handler.onButtonsStateChanged(user, oldState, state);
         }
-        void onLeftThumbZoneChanged(int user, const GamePadState & oldState, const GamePadState & state) {
+        void onLeftThumbZoneChanged(int user, const GamePadState & oldState, const GamePadState & state) override {
             handler.onLeftThumbZoneChanged(user, oldState, state);
         }
-        void onRightThumbZoneChanged(int user, const GamePadState & oldState, const GamePadState & state) {
+        void onRightThumbZoneChanged(int user, const GamePadState & oldState, const GamePadState & state) override {
             handler.onRightThumbZoneChanged(user, oldState, state);
         }
-        void onLeftTriggerChanged(int user, const GamePadState & state) {
+        void onLeftTriggerChanged(int user, const GamePadState & state) override {
             handler.onLeftTriggerChanged(user, state);
         }
-        void onRightTriggerChanged(int user, const GamePadState & state) {
+        void onRightTriggerChanged(int user, const GamePadState & state) override {
             handler.onRightTriggerChanged(user, state);
         }
         T & handler;
