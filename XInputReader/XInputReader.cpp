@@ -7,7 +7,7 @@ namespace {
 
 using namespace XInputReader;
 
-constexpr double ctan_pi_8 = 2.414213562373095048801688724209;
+constexpr double cot_pi_8 = 2.414213562373095048801688724209;
 int signum(int x) {
     return (x > 0) - (x < 0);
 }
@@ -47,9 +47,9 @@ ThumbZone detectThumbZone8Way(const XINPUT_GAMEPAD & gamePad, ThumbStick thumbSt
 
     int magnitudeSquared = x*x + y*y;
     if (magnitudeSquared > deadzoneSquared) {
-        if (y != 0 && abs(double(x) / y) < ctan_pi_8)
+        if (y != 0 && abs(double(x) / y) < cot_pi_8)
             res.y = signum(y);
-        if (x != 0 && abs(double(y) / x) < ctan_pi_8)
+        if (x != 0 && abs(double(y) / x) < cot_pi_8)
             res.x = signum(x);
     }
 
