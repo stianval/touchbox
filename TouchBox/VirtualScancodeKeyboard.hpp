@@ -10,5 +10,6 @@ enum class KeyboardSide {
 };
 
 WORD getScancode(KeyboardSide keyboardSide, int rowAdjust, int colAdjust);
+WORD getVk(KeyboardSide keyboardSide, int rowAdjust, int colAdjust);
 
 }

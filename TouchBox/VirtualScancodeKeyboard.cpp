@@ -1,5 +1,7 @@
 #include "VirtualScancodeKeyboard.hpp"
 
+#include <Windows.h> // for MapVirtualKey
+
 namespace VirtualScancodeKeyboard {
 
 namespace {
@@ -29,6 +31,11 @@ WORD getScancode(KeyboardSide keyboardSide, int rowAdjust, int colAdjust) {
     scancodeRow += rowAdjust;
     scancodeCol += colAdjust;
     return scancodes_intl[scancodeRow][scancodeCol];
+}
+
+WORD getVk(KeyboardSide keyboardSide, int rowAdjust, int colAdjust) {
+    WORD scancode = getScancode(keyboardSide, rowAdjust, colAdjust);
+    return MapVirtualKey(scancode, MAPVK_VSC_TO_VK_EX);
 }
 
 }  // namespace VirtualScancodeKeyboard

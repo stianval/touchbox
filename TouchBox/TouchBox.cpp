@@ -13,10 +13,10 @@
 namespace {
 
 struct TriggerKey {
-    KeyboardSynth::ScancodeKey key;
+    KeyboardSynth::VkKey key;
 };
 struct ShoulderKey {
-    KeyboardSynth::ScancodeKey key;
+    KeyboardSynth::VkKey key;
     KeyboardSynth::ModifierKey shift;
 };
 struct VirtualKeys {
@@ -146,17 +146,17 @@ void TouchBox::onRightThumbZoneChanged(int user, const GamePadState & oldState, 
 }
 void TouchBox::onLeftTriggerChanged(int user, const GamePadState & state) {
     std::cout << "L-T ";
-    auto & vk = s_scanKeys[user].leftTrigger;
+    auto & button = s_scanKeys[user].leftTrigger;
     auto & zone = state.leftThumbZone;
-    WORD scancode = VirtualScancodeKeyboard::getScancode(VirtualScancodeKeyboard::KeyboardSide::Left, -zone.y, zone.x);
-    KeyboardSynth::scanKeyChange(vk.key, scancode, state.leftTrigger);
+    WORD vk = VirtualScancodeKeyboard::getVk(VirtualScancodeKeyboard::KeyboardSide::Left, -zone.y, zone.x);
+    KeyboardSynth::vkKeyChange(button.key, vk, state.leftTrigger);
 }
 void TouchBox::onRightTriggerChanged(int user, const GamePadState & state) {
     std::cout << "R-T ";
-    auto & vk = s_scanKeys[user].rightTrigger;
+    auto & button = s_scanKeys[user].rightTrigger;
     auto & zone = state.rightThumbZone;
-    WORD scancode = VirtualScancodeKeyboard::getScancode(VirtualScancodeKeyboard::KeyboardSide::Right, -zone.y, zone.x);
-    KeyboardSynth::scanKeyChange(vk.key, scancode, state.rightTrigger);
+    WORD vk = VirtualScancodeKeyboard::getVk(VirtualScancodeKeyboard::KeyboardSide::Right, -zone.y, zone.x);
+    KeyboardSynth::vkKeyChange(button.key, vk, state.rightTrigger);
 }
 
 void TouchBox::keyRepeat() {
@@ -165,29 +165,29 @@ void TouchBox::keyRepeat() {
 
 void TouchBox::onLeftShoulderChanged(int user, const GamePadState & state) {
     std::cout << "L-S ";
-    auto & vk = s_scanKeys[user].leftShoulder;
+    auto & button = s_scanKeys[user].leftShoulder;
     auto & zone = state.leftThumbZone;
     bool pressed = state.buttons & XINPUT_GAMEPAD_LEFT_SHOULDER;
-    if (vk.shift.pressed || (pressed && zone.isCentered())) {
-        KeyboardSynth::modifierKeyChange(vk.shift, VK_LSHIFT, pressed);
-        vk.shift.pressed = pressed;
+    if (button.shift.pressed || (pressed && zone.isCentered())) {
+        KeyboardSynth::modifierKeyChange(button.shift, VK_LSHIFT, pressed);
+        button.shift.pressed = pressed;
     }
     else {
-        WORD scancode = VirtualScancodeKeyboard::getScancode(VirtualScancodeKeyboard::KeyboardSide::Left, -zone.y, 2 * zone.x);
-        KeyboardSynth::scanKeyChange(vk.key, scancode, pressed);
+        WORD vk = VirtualScancodeKeyboard::getVk(VirtualScancodeKeyboard::KeyboardSide::Left, -zone.y, 2 * zone.x);
+        KeyboardSynth::vkKeyChange(button.key, vk, pressed);
     }
 }
 void TouchBox::onRightShoulderChanged(int user, const GamePadState & state) {
     std::cout << "R-S ";
-    auto & vk = s_scanKeys[user].rightShoulder;
+    auto & button = s_scanKeys[user].rightShoulder;
     auto & zone = state.rightThumbZone;
     bool pressed = state.buttons & XINPUT_GAMEPAD_RIGHT_SHOULDER;
-    if (vk.shift.pressed || (pressed && zone.isCentered())) {
-        KeyboardSynth::modifierKeyChange(vk.shift, VK_RSHIFT, pressed);
+    if (button.shift.pressed || (pressed && zone.isCentered())) {
+        KeyboardSynth::modifierKeyChange(button.shift, VK_RSHIFT, pressed);
     }
     else {
-        WORD scancode = VirtualScancodeKeyboard::getScancode(VirtualScancodeKeyboard::KeyboardSide::Right, -zone.y, 2 * zone.x);
-        KeyboardSynth::scanKeyChange(vk.key, scancode, pressed);
+        WORD vk = VirtualScancodeKeyboard::getVk(VirtualScancodeKeyboard::KeyboardSide::Right, -zone.y, 2 * zone.x);
+        KeyboardSynth::vkKeyChange(button.key, vk, pressed);
     }
 }
 

@@ -35,17 +35,6 @@ const KeyRepeatTiming & KeyRepeatTiming::getInstance() {
     return instance;
 }
 
-void sendKeyboardScanEvent(WORD scancode, bool pressed) {
-    INPUT input;
-    ZeroMemory(&input, sizeof(INPUT));
-    input.type = INPUT_KEYBOARD;
-    input.ki.wScan = scancode;
-    input.ki.dwFlags = KEYEVENTF_SCANCODE;
-    if (!pressed)
-        input.ki.dwFlags |= KEYEVENTF_KEYUP;
-    SendInput(1, &input, sizeof(INPUT));
-}
-
 void sendKeyboardVkEvent(WORD vk, bool pressed) {
     INPUT input;
     ZeroMemory(&input, sizeof(INPUT));
@@ -54,15 +43,6 @@ void sendKeyboardVkEvent(WORD vk, bool pressed) {
     if (!pressed)
         input.ki.dwFlags |= KEYEVENTF_KEYUP;
     SendInput(1, &input, sizeof(INPUT));
-}
-
-void checkKeyRepeat(ScancodeKey & vk) {
-    if (!vk.prevScancodePressed)
-        return;
-    if (clock_t::now() > vk.nextKeyRepeat) {
-        sendKeyboardScanEvent(vk.prevScancodePressed, true);
-        vk.nextKeyRepeat += KeyRepeatTiming::getInstance().keyboardRepeat;
-    }
 }
 
 void checkKeyRepeat(VkKey & vk) {
@@ -74,34 +54,9 @@ void checkKeyRepeat(VkKey & vk) {
     }
 }
 
-std::unordered_set<ScancodeKey*> pressedScanKeys;
 std::unordered_set<VkKey*> pressedVkKeys;
 
 }  // namespace
-
-void scanKeyChange(ScancodeKey & scanKey, WORD scancode, bool pressed) {
-    bool released = !pressed;
-    if (released && !scanKey.prevScancodePressed)
-        return;
-    if (released) {
-        std::cout << "RELEASED" << std::endl;
-        sendKeyboardScanEvent(scanKey.prevScancodePressed, false);
-        scanKey.prevScancodePressed = 0;
-        pressedScanKeys.erase(&scanKey);
-        return;
-    }
-    scanKey.prevScancodePressed = 0; // shouldn't happen that it is non-zero, but reset it anyway just in case
-    bool isAlreadyPressed = 0x2 & GetAsyncKeyState(MapVirtualKey(scancode, MAPVK_VSC_TO_VK_EX));
-    if (!isAlreadyPressed) {
-        std::cout << "PRESSED" << std::endl;
-        scanKey.prevScancodePressed = scancode;
-        scanKey.nextKeyRepeat = clock_t::now() + KeyRepeatTiming::getInstance().keyboardDelay;
-        pressedScanKeys.insert(&scanKey);
-        sendKeyboardScanEvent(scanKey.prevScancodePressed, true);
-        return;
-    }
-    std::cout << "IGNORED" << std::endl;
-}
 
 void vkKeyChange(VkKey & vkKey, WORD newVk, bool pressed) {
     bool released = !pressed;
@@ -137,9 +92,6 @@ void modifierKeyChange(ModifierKey & vk, WORD modifierVk, bool pressed) {
 void checkKeyRepeat() {
     for (VkKey * vkKey : pressedVkKeys) {
         checkKeyRepeat(*vkKey);
-    }
-    for (ScancodeKey * scanKey : pressedScanKeys) {
-        checkKeyRepeat(*scanKey);
     }
 }
 
