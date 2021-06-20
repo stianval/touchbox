@@ -45,7 +45,7 @@ void sendKeyboardVkEvent(WORD vk, bool pressed) {
     SendInput(1, &input, sizeof(INPUT));
 }
 
-void checkKeyRepeat(VkKey & vk) {
+void checkKeyRepeat(VkButton & vk) {
     if (!vk.prevVkPressed)
         return;
     if (clock_t::now() > vk.nextKeyRepeat) {
@@ -54,11 +54,11 @@ void checkKeyRepeat(VkKey & vk) {
     }
 }
 
-std::unordered_set<VkKey*> pressedVkKeys;
+std::unordered_set<VkButton*> pressedVkButtons;
 
 }  // namespace
 
-void vkKeyChange(VkKey & vkKey, WORD newVk, bool pressed) {
+void vkButtonChange(VkButton & vkKey, WORD newVk, bool pressed) {
     bool released = !pressed;
     if (released && !vkKey.prevVkPressed) {
         std::cout << "VK_ALREADY_RELEASED" << std::endl;
@@ -68,7 +68,7 @@ void vkKeyChange(VkKey & vkKey, WORD newVk, bool pressed) {
         std::cout << "VK_RELEASED" << std::endl;
         sendKeyboardVkEvent(vkKey.prevVkPressed, false);
         vkKey.prevVkPressed = 0;
-        pressedVkKeys.erase(&vkKey);
+        pressedVkButtons.erase(&vkKey);
         return;
     }
 
@@ -77,20 +77,20 @@ void vkKeyChange(VkKey & vkKey, WORD newVk, bool pressed) {
         std::cout << "VK_PRESSED" << std::endl;
         vkKey.prevVkPressed = newVk;
         vkKey.nextKeyRepeat = clock_t::now() + KeyRepeatTiming::getInstance().keyboardDelay;
-        pressedVkKeys.insert(&vkKey);
+        pressedVkButtons.insert(&vkKey);
         sendKeyboardVkEvent(vkKey.prevVkPressed, true);
         return;
     }
     std::cout << "VK_IGNORED" << std::endl;
 }
 
-void modifierKeyChange(ModifierKey & vk, WORD modifierVk, bool pressed) {
+void modifierButtonChange(ModifierKey & vk, WORD modifierVk, bool pressed) {
     sendKeyboardVkEvent(modifierVk, pressed);
     vk.pressed = pressed;
 }
 
 void checkKeyRepeat() {
-    for (VkKey * vkKey : pressedVkKeys) {
+    for (VkButton * vkKey : pressedVkButtons) {
         checkKeyRepeat(*vkKey);
     }
 }
