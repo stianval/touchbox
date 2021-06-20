@@ -24,12 +24,18 @@
     <ClCompile Include="KeyboardSynth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VirtualScancodeKeyboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TouchBox.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardSynth.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualScancodeKeyboard.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,6 @@
 #include "TouchBox.hpp"
 #include "KeyboardSynth.hpp"
+#include "VirtualScancodeKeyboard.hpp"
 
 #include <functional>
 #include <iostream>
@@ -147,13 +148,15 @@ void TouchBox::onLeftTriggerChanged(int user, const GamePadState & state) {
     std::cout << "L-T ";
     auto & vk = s_scanKeys[user].leftTrigger;
     auto & zone = state.leftThumbZone;
-    KeyboardSynth::scanKeyChange(vk.key, state.leftTrigger, KeyboardSynth::KeyboardSide::Left, -zone.y, zone.x);
+    WORD scancode = VirtualScancodeKeyboard::getScancode(VirtualScancodeKeyboard::KeyboardSide::Left, -zone.y, zone.x);
+    KeyboardSynth::scanKeyChange(vk.key, scancode, state.leftTrigger);
 }
 void TouchBox::onRightTriggerChanged(int user, const GamePadState & state) {
     std::cout << "R-T ";
     auto & vk = s_scanKeys[user].rightTrigger;
     auto & zone = state.rightThumbZone;
-    KeyboardSynth::scanKeyChange(vk.key, state.rightTrigger, KeyboardSynth::KeyboardSide::Right, -zone.y, zone.x);
+    WORD scancode = VirtualScancodeKeyboard::getScancode(VirtualScancodeKeyboard::KeyboardSide::Right, -zone.y, zone.x);
+    KeyboardSynth::scanKeyChange(vk.key, scancode, state.rightTrigger);
 }
 
 void TouchBox::keyRepeat() {
@@ -170,7 +173,8 @@ void TouchBox::onLeftShoulderChanged(int user, const GamePadState & state) {
         vk.shift.pressed = pressed;
     }
     else {
-        scanKeyChange(vk.key, pressed, KeyboardSynth::KeyboardSide::Left, -zone.y, 2 * zone.x);
+        WORD scancode = VirtualScancodeKeyboard::getScancode(VirtualScancodeKeyboard::KeyboardSide::Left, -zone.y, 2 * zone.x);
+        KeyboardSynth::scanKeyChange(vk.key, scancode, pressed);
     }
 }
 void TouchBox::onRightShoulderChanged(int user, const GamePadState & state) {
@@ -182,7 +186,8 @@ void TouchBox::onRightShoulderChanged(int user, const GamePadState & state) {
         KeyboardSynth::modifierKeyChange(vk.shift, VK_RSHIFT, pressed);
     }
     else {
-        scanKeyChange(vk.key, pressed, KeyboardSynth::KeyboardSide::Right, -zone.y, 2 * zone.x);
+        WORD scancode = VirtualScancodeKeyboard::getScancode(VirtualScancodeKeyboard::KeyboardSide::Right, -zone.y, 2 * zone.x);
+        KeyboardSynth::scanKeyChange(vk.key, scancode, pressed);
     }
 }
 

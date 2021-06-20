@@ -128,6 +128,7 @@
     <ClCompile Include="KeyboardSynth.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TouchBox.cpp" />
+    <ClCompile Include="VirtualScancodeKeyboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XInputReader\XInputReader.vcxproj">
@@ -137,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="KeyboardSynth.hpp" />
     <ClInclude Include="TouchBox.hpp" />
+    <ClInclude Include="VirtualScancodeKeyboard.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
