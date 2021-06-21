@@ -10,7 +10,7 @@ struct ThumbZone {
     bool isCentered() const { return !(x || y); }
 };
 
-struct GamePadState {
+struct GamepadState {
     DWORD packetNumber = 0;
     WORD buttons = 0;
     ThumbZone leftThumbZone;
@@ -28,11 +28,11 @@ public:
 
 private:
     struct HandlerInterface {
-        virtual void onButtonsStateChanged(int user, const GamePadState & oldState, const GamePadState & state) = 0;
-        virtual void onLeftThumbZoneChanged(int user, const GamePadState & oldState, const GamePadState & state) = 0;
-        virtual void onRightThumbZoneChanged(int user, const GamePadState & oldState, const GamePadState & state) = 0;
-        virtual void onLeftTriggerChanged(int user, const GamePadState & state) = 0;
-        virtual void onRightTriggerChanged(int user, const GamePadState & state) = 0;
+        virtual void onButtonsStateChanged(int user, const GamepadState & oldState, const GamepadState & state) = 0;
+        virtual void onLeftThumbZoneChanged(int user, const GamepadState & oldState, const GamepadState & state) = 0;
+        virtual void onRightThumbZoneChanged(int user, const GamepadState & oldState, const GamepadState & state) = 0;
+        virtual void onLeftTriggerChanged(int user, const GamepadState & state) = 0;
+        virtual void onRightTriggerChanged(int user, const GamepadState & state) = 0;
     };
 
     template <typename T>
@@ -40,19 +40,19 @@ private:
         HandlerImpl(T & handler)
             : handler(handler)
         {}
-        void onButtonsStateChanged(int user, const GamePadState & oldState, const GamePadState & state) override {
+        void onButtonsStateChanged(int user, const GamepadState & oldState, const GamepadState & state) override {
             handler.onButtonsStateChanged(user, oldState, state);
         }
-        void onLeftThumbZoneChanged(int user, const GamePadState & oldState, const GamePadState & state) override {
+        void onLeftThumbZoneChanged(int user, const GamepadState & oldState, const GamepadState & state) override {
             handler.onLeftThumbZoneChanged(user, oldState, state);
         }
-        void onRightThumbZoneChanged(int user, const GamePadState & oldState, const GamePadState & state) override {
+        void onRightThumbZoneChanged(int user, const GamepadState & oldState, const GamepadState & state) override {
             handler.onRightThumbZoneChanged(user, oldState, state);
         }
-        void onLeftTriggerChanged(int user, const GamePadState & state) override {
+        void onLeftTriggerChanged(int user, const GamepadState & state) override {
             handler.onLeftTriggerChanged(user, state);
         }
-        void onRightTriggerChanged(int user, const GamePadState & state) override {
+        void onRightTriggerChanged(int user, const GamepadState & state) override {
             handler.onRightTriggerChanged(user, state);
         }
         T & handler;

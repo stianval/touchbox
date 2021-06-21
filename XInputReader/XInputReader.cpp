@@ -55,7 +55,7 @@ ThumbZone detectThumbZone8Way(const XINPUT_GAMEPAD & gamePad, ThumbStick thumbSt
 
     return res;
 }
-GamePadState createGamePadState(const XINPUT_STATE & state) {
+GamepadState createGamePadState(const XINPUT_STATE & state) {
     return {
         state.dwPacketNumber,
         state.Gamepad.wButtons,
@@ -65,7 +65,7 @@ GamePadState createGamePadState(const XINPUT_STATE & state) {
         triggerIsTriggered(state.Gamepad.bRightTrigger),
     };
 }
-GamePadState s_states[XUSER_MAX_COUNT];
+GamepadState s_states[XUSER_MAX_COUNT];
 
 }  // namespace
 
@@ -74,7 +74,7 @@ namespace XInputReader {
 void readInput(InputHandler & handler) {
     DWORD dwResult;
     for (DWORD i = 0; i < XUSER_MAX_COUNT; i++) {
-        GamePadState & state = s_states[i];
+        GamepadState & state = s_states[i];
 
         XINPUT_STATE xinputState;
         ZeroMemory(&xinputState, sizeof(XINPUT_STATE));
