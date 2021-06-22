@@ -24,14 +24,14 @@ struct GamepadVkButtons {
     TriggerKey rightTrigger;
     ShoulderKey leftShoulder;
     ShoulderKey rightShoulder;
-    KeyboardSynth::VkButton btnA;
-    KeyboardSynth::VkButton btnB;
-    KeyboardSynth::VkButton btnX;
-    KeyboardSynth::VkButton btnY;
-    KeyboardSynth::VkButton btnUp;
-    KeyboardSynth::VkButton btnDown;
-    KeyboardSynth::VkButton btnLeft;
-    KeyboardSynth::VkButton btnRight;
+    KeyboardSynth::VkButton btnA{ VK_SPACE };
+    KeyboardSynth::VkButton btnB{ VK_RETURN };
+    KeyboardSynth::VkButton btnX{ VK_BACK };
+    KeyboardSynth::VkButton btnY{ VK_ESCAPE };
+    KeyboardSynth::VkButton btnUp{ VK_UP };
+    KeyboardSynth::VkButton btnDown{ VK_DOWN };
+    KeyboardSynth::VkButton btnLeft{ VK_LEFT };
+    KeyboardSynth::VkButton btnRight{ VK_RIGHT };
     KeyboardSynth::VkButton btnStart;
     KeyboardSynth::VkButton btnBack;
 
@@ -99,28 +99,28 @@ void TouchBox::onButtonsStateChanged(int user, const GamepadState & oldState, co
     Buttons buttons(oldState.buttons, state.buttons, gamepadVkButtons[user]);
 
     buttons.ifChanged(XINPUT_GAMEPAD_A, [](KeyboardSynth::VkButton & btn, bool pressed) {
-        KeyboardSynth::vkButtonChange(btn, VK_SPACE, pressed);
+        KeyboardSynth::vkButtonChange(btn, pressed);
     });
     buttons.ifChanged(XINPUT_GAMEPAD_B, [](KeyboardSynth::VkButton & btn, bool pressed) {
-        KeyboardSynth::vkButtonChange(btn, VK_RETURN, pressed);
+        KeyboardSynth::vkButtonChange(btn, pressed);
     });
     buttons.ifChanged(XINPUT_GAMEPAD_X, [](KeyboardSynth::VkButton & btn, bool pressed) {
-        KeyboardSynth::vkButtonChange(btn, VK_BACK, pressed);
+        KeyboardSynth::vkButtonChange(btn, pressed);
     });
     buttons.ifChanged(XINPUT_GAMEPAD_Y, [](KeyboardSynth::VkButton & btn, bool pressed) {
-        KeyboardSynth::vkButtonChange(btn, VK_ESCAPE, pressed);
+        KeyboardSynth::vkButtonChange(btn, pressed);
     });
     buttons.ifChanged(XINPUT_GAMEPAD_DPAD_UP, [](KeyboardSynth::VkButton & btn, bool pressed) {
-        KeyboardSynth::vkButtonChange(btn, VK_UP, pressed);
+        KeyboardSynth::vkButtonChange(btn, pressed);
     });
     buttons.ifChanged(XINPUT_GAMEPAD_DPAD_DOWN, [](KeyboardSynth::VkButton & btn, bool pressed) {
-        KeyboardSynth::vkButtonChange(btn, VK_DOWN, pressed);
+        KeyboardSynth::vkButtonChange(btn, pressed);
     });
     buttons.ifChanged(XINPUT_GAMEPAD_DPAD_LEFT, [](KeyboardSynth::VkButton & btn, bool pressed) {
-        KeyboardSynth::vkButtonChange(btn, VK_LEFT, pressed);
+        KeyboardSynth::vkButtonChange(btn, pressed);
     });
     buttons.ifChanged(XINPUT_GAMEPAD_DPAD_RIGHT, [](KeyboardSynth::VkButton & btn, bool pressed) {
-        KeyboardSynth::vkButtonChange(btn, VK_RIGHT, pressed);
+        KeyboardSynth::vkButtonChange(btn, pressed);
     });
 
     buttons.ifChanged(XINPUT_GAMEPAD_LEFT_SHOULDER, [this, user, state](KeyboardSynth::VkButton &, bool) {
@@ -144,15 +144,15 @@ void TouchBox::onLeftTriggerChanged(int user, const GamepadState & state) {
     std::cout << "L-T ";
     auto & button = gamepadVkButtons[user].leftTrigger;
     auto & zone = state.leftThumbZone;
-    WORD vk = VirtualScancodeKeyboard::getVk(VirtualScancodeKeyboard::KeyboardSide::Left, -zone.y, zone.x);
-    KeyboardSynth::vkButtonChange(button.key, vk, state.leftTrigger);
+    button.key.vk = VirtualScancodeKeyboard::getVk(VirtualScancodeKeyboard::KeyboardSide::Left, -zone.y, zone.x);
+    KeyboardSynth::vkButtonChange(button.key, state.leftTrigger);
 }
 void TouchBox::onRightTriggerChanged(int user, const GamepadState & state) {
     std::cout << "R-T ";
     auto & button = gamepadVkButtons[user].rightTrigger;
     auto & zone = state.rightThumbZone;
-    WORD vk = VirtualScancodeKeyboard::getVk(VirtualScancodeKeyboard::KeyboardSide::Right, -zone.y, zone.x);
-    KeyboardSynth::vkButtonChange(button.key, vk, state.rightTrigger);
+    button.key.vk = VirtualScancodeKeyboard::getVk(VirtualScancodeKeyboard::KeyboardSide::Right, -zone.y, zone.x);
+    KeyboardSynth::vkButtonChange(button.key, state.rightTrigger);
 }
 
 void TouchBox::keyRepeat() {
@@ -166,11 +166,10 @@ void TouchBox::onLeftShoulderChanged(int user, const GamepadState & state) {
     bool pressed = state.buttons & XINPUT_GAMEPAD_LEFT_SHOULDER;
     if (button.shift.pressed || (pressed && zone.isCentered())) {
         KeyboardSynth::modifierButtonChange(button.shift, VK_LSHIFT, pressed);
-        button.shift.pressed = pressed;
     }
     else {
-        WORD vk = VirtualScancodeKeyboard::getVk(VirtualScancodeKeyboard::KeyboardSide::Left, -zone.y, 2 * zone.x);
-        KeyboardSynth::vkButtonChange(button.key, vk, pressed);
+        button.key.vk = VirtualScancodeKeyboard::getVk(VirtualScancodeKeyboard::KeyboardSide::Left, -zone.y, 2 * zone.x);
+        KeyboardSynth::vkButtonChange(button.key, pressed);
     }
 }
 void TouchBox::onRightShoulderChanged(int user, const GamepadState & state) {
@@ -182,8 +181,8 @@ void TouchBox::onRightShoulderChanged(int user, const GamepadState & state) {
         KeyboardSynth::modifierButtonChange(button.shift, VK_RSHIFT, pressed);
     }
     else {
-        WORD vk = VirtualScancodeKeyboard::getVk(VirtualScancodeKeyboard::KeyboardSide::Right, -zone.y, 2 * zone.x);
-        KeyboardSynth::vkButtonChange(button.key, vk, pressed);
+        button.key.vk = VirtualScancodeKeyboard::getVk(VirtualScancodeKeyboard::KeyboardSide::Right, -zone.y, 2 * zone.x);
+        KeyboardSynth::vkButtonChange(button.key, pressed);
     }
 }
 
