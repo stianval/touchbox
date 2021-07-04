@@ -19,7 +19,7 @@ struct ShoulderKey {
     KeyboardSynth::VkButton key;
     KeyboardSynth::ModifierKey shift;
 };
-struct GamepadVkButtons {
+struct GamepadVkProfile {
     TriggerKey leftTrigger;
     TriggerKey rightTrigger;
     ShoulderKey leftShoulder;
@@ -37,7 +37,7 @@ struct GamepadVkButtons {
 
     KeyboardSynth::VkButton & getVkButton(UINT buttonCode);
 };
-KeyboardSynth::VkButton & GamepadVkButtons::getVkButton(UINT buttonCode) {
+KeyboardSynth::VkButton & GamepadVkProfile::getVkButton(UINT buttonCode) {
     switch (buttonCode) {
     case XINPUT_GAMEPAD_A: return btnA;
     case XINPUT_GAMEPAD_B: return btnB;
@@ -55,11 +55,11 @@ KeyboardSynth::VkButton & GamepadVkButtons::getVkButton(UINT buttonCode) {
     throw std::invalid_argument("Expected a xbox button");
 }
 
-GamepadVkButtons gamepadVkButtons[XUSER_MAX_COUNT];
+GamepadVkProfile gamepadVkButtons[XUSER_MAX_COUNT];
 
 class Buttons {
 public:
-    Buttons(UINT oldButtons, UINT buttons, GamepadVkButtons & gamepadVkButtons)
+    Buttons(UINT oldButtons, UINT buttons, GamepadVkProfile & gamepadVkButtons)
         : oldButtons(oldButtons)
         , buttons(buttons)
         , gamepadVkButtons(gamepadVkButtons)
@@ -83,7 +83,7 @@ public:
 private:
     UINT oldButtons;
     UINT buttons;
-    GamepadVkButtons & gamepadVkButtons;
+    GamepadVkProfile & gamepadVkButtons;
 };
 
 }
